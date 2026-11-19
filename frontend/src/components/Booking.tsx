@@ -1,4 +1,6 @@
-import { CalendarCheck, CheckCircle2, Copy, Loader2, Search } from 'lucide-react'
+import { CalendarCheck, CheckCircle2, Copy, Loader2, Phone, Search } from 'lucide-react'
+import { CONTACT, whatsappLink } from '../contact'
+import { WhatsAppIcon } from './WhatsAppIcon'
 import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react'
 import type { Appointment, Catalog, DayAvailability, Quote } from '../domain/models'
 import { formatTL, isValidPhone, isValidPlate, SCHEDULE, toIsoDate } from '../domain/rules'
@@ -118,7 +120,18 @@ export function Booking({ catalog, segmentId, packageId, addOnIds, quote }: Prop
               </button>
             </div>
             <p className="muted">Toplam {formatTL(created.total)} · tahmini teslim {created.deliveryDays} iş günü</p>
-            <button className="btn btn-ghost" onClick={() => setCreated(null)}>Yeni randevu oluştur</button>
+            <div className="success-actions">
+              <a
+                className="btn btn-primary btn-wa-solid"
+                href={whatsappLink(`Merhaba, ${created.code} kodlu randevum hakkında yazıyorum (${created.packageName}, ${created.date} ${created.time}).`)}
+                target="_blank"
+                rel="noopener"
+              >
+                <WhatsAppIcon size={18} /> WhatsApp'tan yaz
+              </a>
+              <a className="btn btn-ghost" href={CONTACT.phoneTel}><Phone size={16} aria-hidden /> {CONTACT.phoneDisplay}</a>
+              <button className="btn btn-ghost" onClick={() => setCreated(null)}>Yeni randevu</button>
+            </div>
           </div>
         ) : (
           <form className="booking-grid" onSubmit={submit} noValidate>

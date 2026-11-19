@@ -4,6 +4,8 @@ import { Booking } from './components/Booking'
 import { Configurator } from './components/Configurator'
 import { GlossSlider } from './components/GlossSlider'
 import { HeroShowcase } from './components/HeroShowcase'
+import { WhatsAppIcon } from './components/WhatsAppIcon'
+import { CONTACT, whatsappLink } from './contact'
 import type { Catalog, Quote } from './domain/models'
 import { services } from './infrastructure/container'
 
@@ -83,6 +85,7 @@ export function App() {
             <a href="#fiyatlar">Fiyatlar</a>
             <a href="#parlaklik">Öncesi / Sonrası</a>
             <a href="#surec">Süreç</a>
+            <a href={CONTACT.phoneTel} className="nav-phone"><Phone size={16} aria-hidden /> {CONTACT.phoneDisplay}</a>
             <a href="#randevu" className="btn btn-primary btn-sm">Randevu al</a>
           </nav>
         </div>
@@ -193,6 +196,26 @@ export function App() {
         )}
       </main>
 
+      <section className="contact-band" id="iletisim">
+        <div className="container contact-inner">
+          <div>
+            <span className="eyebrow">İletişim</span>
+            <h2>Aracınız için ücretsiz ön değerlendirme.</h2>
+            <p>Fotoğraf gönderin, boya durumuna göre en doğru paketi birlikte seçelim.</p>
+          </div>
+          <div className="contact-actions">
+            <a className="contact-card" href={whatsappLink()} target="_blank" rel="noopener">
+              <span className="contact-icon is-wa"><WhatsAppIcon size={22} /></span>
+              <span><small>WhatsApp</small><strong>{CONTACT.phoneDisplay}</strong></span>
+            </a>
+            <a className="contact-card" href={CONTACT.phoneTel}>
+              <span className="contact-icon"><Phone size={20} aria-hidden /></span>
+              <span><small>Telefon</small><strong>{CONTACT.phoneDisplay}</strong></span>
+            </a>
+          </div>
+        </div>
+      </section>
+
       <footer className="footer">
         <div className="container footer-inner">
           <div className="brand">
@@ -200,9 +223,10 @@ export function App() {
             <span className="brand-sub">Detailing Studio</span>
           </div>
           <div className="footer-contact">
-            <a href="tel:+902420000000"><Phone size={16} aria-hidden /> 0242 000 00 00</a>
-            <span><MapPin size={16} aria-hidden /> Antalya</span>
-            <span>Pzt–Cmt 09:00–18:00</span>
+            <a href={CONTACT.phoneTel}><Phone size={16} aria-hidden /> {CONTACT.phoneDisplay}</a>
+            <a href={whatsappLink()} target="_blank" rel="noopener"><WhatsAppIcon size={16} /> WhatsApp</a>
+            <span><MapPin size={16} aria-hidden /> {CONTACT.city}</span>
+            <span>{CONTACT.hours}</span>
           </div>
         </div>
         <div className="container footer-legal">
@@ -212,6 +236,11 @@ export function App() {
           </small>
         </div>
       </footer>
+
+      <a className="wa-float" href={whatsappLink()} target="_blank" rel="noopener" aria-label="WhatsApp ile yazın">
+        <WhatsAppIcon size={28} />
+        <span className="wa-float-label">WhatsApp'tan yazın</span>
+      </a>
     </>
   )
 }

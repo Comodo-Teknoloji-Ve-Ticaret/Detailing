@@ -2,6 +2,8 @@ import { Check, Clock, ShieldCheck, Sparkles, Table2 } from 'lucide-react'
 import { useState } from 'react'
 import type { Catalog, Quote, ServiceCategory } from '../domain/models'
 import { addOnPrice, formatTL, priceForSegment } from '../domain/rules'
+import { whatsappLink } from '../contact'
+import { WhatsAppIcon } from './WhatsAppIcon'
 
 const IMG = `${import.meta.env.BASE_URL}images/`
 
@@ -186,6 +188,16 @@ export function Configurator({ catalog, segmentId, packageId, addOnIds, quote, o
                   Tahmini işçilik {quote.estimatedHours} saat · teslim {quote.deliveryDays} iş günü
                 </p>
                 <button className="btn btn-primary btn-block" onClick={onBook}>Bu teklifle randevu al</button>
+                <a
+                  className="btn btn-outline btn-block btn-wa"
+                  href={whatsappLink(
+                    `Merhaba, ${selectedPkg?.name ?? ''} (${segment.name}) için teklif almak istiyorum. Online toplam: ${formatTL(quote.total)}.`,
+                  )}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <WhatsAppIcon size={18} /> WhatsApp'tan sor
+                </a>
               </>
             ) : (
               <p className="muted">Bir paket seçin.</p>

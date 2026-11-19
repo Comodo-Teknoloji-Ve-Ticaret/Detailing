@@ -365,6 +365,31 @@ img { max-width: 100%; display: block; }
 .footer-legal { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; padding-top: 20px; color: var(--muted); }
 .footer-legal a { text-decoration: underline; text-underline-offset: 3px; }
 
+/* Contact */
+.nav-phone { display: inline-flex; align-items: center; gap: 7px; font-weight: 700; color: var(--text) !important; }
+.btn-wa { margin-top: 10px; }
+.btn-wa svg, .footer-contact a[href*="wa.me"] svg { color: #25d366; }
+.btn-wa-solid { background: #25d366; color: #0a1f12; }
+.btn-wa-solid:hover:not(:disabled) { background: #3ee07a; }
+.success-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 18px; }
+
+.contact-band { padding: 90px 0; border-top: 1px solid var(--line); background: radial-gradient(ellipse 50% 80% at 100% 50%, rgba(37, 211, 102, 0.07), transparent 70%), var(--bg-2); }
+.contact-inner { display: flex; justify-content: space-between; align-items: center; gap: 40px; flex-wrap: wrap; }
+.contact-inner h2 { font-size: clamp(1.8rem, 3.4vw, 2.8rem); max-width: 16ch; margin-bottom: 12px; }
+.contact-inner p { color: var(--muted); margin: 0; max-width: 420px; }
+.contact-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+.contact-card { display: flex; align-items: center; gap: 14px; background: var(--bg); border: 1px solid var(--line); border-radius: 12px; padding: 16px 22px 16px 16px; transition: border-color 0.2s, transform 0.2s; }
+.contact-card:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.contact-card small { display: block; color: var(--muted); font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.12em; }
+.contact-card strong { font-family: var(--font-display); font-stretch: 112%; font-size: 1.25rem; }
+.contact-icon { width: 46px; height: 46px; border-radius: 10px; display: grid; place-items: center; background: var(--bg-3); color: var(--text); }
+.contact-icon.is-wa { background: #25d366; color: #fff; }
+
+.wa-float { position: fixed; right: 22px; bottom: 22px; z-index: 40; display: flex; align-items: center; gap: 10px; background: #25d366; color: #fff; border-radius: 999px; padding: 14px; box-shadow: 0 12px 30px -8px rgba(37, 211, 102, 0.6); transition: transform 0.2s, padding 0.25s; }
+.wa-float:hover { transform: translateY(-2px); }
+.wa-float-label { max-width: 0; overflow: hidden; white-space: nowrap; font-weight: 700; font-size: 0.9rem; transition: max-width 0.3s ease; }
+.wa-float:hover .wa-float-label, .wa-float:focus-visible .wa-float-label { max-width: 180px; padding-right: 6px; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .service-media img { transition: none; }
@@ -388,7 +413,8 @@ img { max-width: 100%; display: block; }
   .thumb { width: 54px; height: 38px; }
   .hero-content { order: 1; }
   .hero-proof { order: 3; padding-top: 20px; gap: 28px; }
-  .nav a:not(.btn) { display: none; }
+  .nav a:not(.btn):not(.nav-phone) { display: none; }
+  .nav-phone { font-size: 0.85rem; }
   .section { padding: 72px 0; }
   .section-head.split { flex-direction: column; align-items: flex-start; gap: 14px; }
   .service-grid, .booking-grid { grid-template-columns: 1fr; }
@@ -409,5 +435,8 @@ img { max-width: 100%; display: block; }
   .seg-control { width: 100%; }
   .seg-control button { flex: 1; padding: 8px 6px; font-size: 0.8rem; }
   .showcase-meta strong { font-size: 0.95rem; }
+  .nav-phone { display: none !important; }
+  .wa-float { right: 16px; bottom: 16px; padding: 12px; }
+  .contact-card { flex: 1 1 100%; }
   .showcase-meta span:not(.showcase-index) { display: none; }
 }
