@@ -2,8 +2,9 @@
 
 Detailing, seramik kaplama ve PPF merkezleri için web uygulaması:
 
-- **Araç segmenti → anında paket fiyatı:** Hatchback, Sedan, SUV, Lüks/Spor, Ticari segmentleri; Detailing / Seramik / PPF paketleri, ekstralar, canlı teklif özeti ve tüm segmentlerin fiyat tablosu.
-- **Öncesi / sonrası parlaklık kaydırıcısı:** Sürüklenebilir (ve klavyeyle kullanılabilir) karşılaştırma; paket ve boya rengi seçimi, GU (gloss unit) göstergesi, seramikte su boncuklanma efekti, mat PPF'de saten görünüm.
+- **Gerçek araç fotoğraflı ana sahne:** 4 araç arasında geçiş; fareyle paralaks, perspektif eğim ve imleci izleyen stüdyo ışığı.
+- **Araç segmenti → anında paket fiyatı:** Her segment gerçek araç fotoğrafıyla; Hatchback, Sedan, SUV, Lüks/Spor, Ticari segmentleri; Detailing / Seramik / PPF paketleri, ekstralar, canlı teklif özeti ve tüm segmentlerin fiyat tablosu.
+- **Öncesi / sonrası parlaklık kaydırıcısı:** Gerçek fotoğraflar üzerinde sürüklenebilir (klavyeyle de kullanılabilir) karşılaştırma; 3 sahne, paket seçimi, GU (gloss unit) göstergesi. Öncesi tarafındaki hare/toz/kireç katmanı fotoğrafın parlaklığıyla maskelenir, yalnızca boyada görünür.
 - **Online randevu:** 14 günlük tarih şeridi, saat başı 2 araç kapasiteli slotlar, Pazar kapalı, telefon/plaka doğrulama, randevu kodu ve kodla sorgulama.
 
 ## Yapı
@@ -48,3 +49,7 @@ cd frontend && VITE_DATA_SOURCE=api npm run dev   # /api → https://localhost:7
 ## Yayın
 
 `main` dalına her push'ta GitHub Actions `frontend/dist` çıktısını GitHub Pages'e yayınlar (`.github/workflows/deploy.yml`).
+
+## Görseller
+
+Tüm fotoğraflar [Unsplash](https://unsplash.com) lisansıyla (ücretsiz ticari kullanım) `frontend/public/images` altındadır.

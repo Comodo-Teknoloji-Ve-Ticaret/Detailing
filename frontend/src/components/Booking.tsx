@@ -94,10 +94,12 @@ export function Booking({ catalog, segmentId, packageId, addOnIds, quote }: Prop
   return (
     <section className="section section-alt" id="randevu">
       <div className="container">
-        <header className="section-head">
-          <span className="eyebrow">Online Randevu</span>
-          <h2>Aracınızı bırakacağınız saati seçin</h2>
-          <p>Pazartesi–Cumartesi 09:00–18:00. Her saat diliminde {SCHEDULE.bayCapacity} araç kabul ediyoruz.</p>
+        <header className="section-head split">
+          <div>
+            <span className="eyebrow">Randevu</span>
+            <h2>Aracınızı ne zaman getiriyorsunuz?</h2>
+          </div>
+          <p>Pazartesi–Cumartesi 09:00–18:00. Her saat diliminde {SCHEDULE.bayCapacity} araç kabul ediyoruz; talebinizi 30 dakika içinde telefonla onaylıyoruz.</p>
         </header>
 
         {created ? (

@@ -1,23 +1,37 @@
-import { Award, Droplets, MapPin, Phone, ShieldCheck, Sparkles, Sun, Timer } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, MapPin, Phone, Star } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { Booking } from './components/Booking'
-import { CarArt } from './components/CarArt'
 import { Configurator } from './components/Configurator'
 import { GlossSlider } from './components/GlossSlider'
+import { HeroShowcase } from './components/HeroShowcase'
 import type { Catalog, Quote } from './domain/models'
 import { services } from './infrastructure/container'
 
+const IMG = `${import.meta.env.BASE_URL}images/`
+
 const SERVICES = [
-  { icon: Sparkles, title: 'Detailing & Pasta Cila', text: 'Kil temizliği, 3 adım makine polisajı ile hare ve çizikleri %90’a kadar gideriyoruz.' },
-  { icon: Droplets, title: 'Seramik Kaplama', text: '9H–10H SiO₂ kaplama ile 5 yıla kadar UV, kuş pisliği ve kimyasal koruma, su itici yüzey.' },
-  { icon: ShieldCheck, title: 'PPF Boya Koruma Filmi', text: 'Kendini onaran TPU film; taş darbesi ve çiziklere karşı 10 yıla kadar garantili koruma.' },
+  {
+    no: '01', title: 'Detailing', pkg: 'detail-polish', img: 'svc-detailing.jpg',
+    text: 'Kil temizliği ve 3 adım makine polisajı. Hareler, ince çizikler ve oksitlenme gider; boya ilk günkü derinliğine döner.',
+    from: '4.500',
+  },
+  {
+    no: '02', title: 'Seramik Kaplama', pkg: 'ceramic-3', img: 'svc-ceramic.jpg',
+    text: '9H–10H SiO₂ kaplama. Su ve kir tutmayan, UV ve kimyasala dayanıklı cam sertliğinde bir katman; 5 yıla kadar garanti.',
+    from: '14.000',
+  },
+  {
+    no: '03', title: 'PPF Koruma Filmi', pkg: 'ppf-front', img: 'svc-ppf.jpg',
+    text: 'Kendini onaran şeffaf TPU film. Taş darbesi, çizik ve kapı vuruklarına karşı görünmez zırh; 10 yıl üretici garantisi.',
+    from: '38.000',
+  },
 ]
 
 const STEPS = [
-  { icon: Timer, title: 'Ön inceleme', text: 'Boya kalınlığı ölçümü ve kusur haritası çıkarılır.' },
-  { icon: Sun, title: 'Hazırlık & polisaj', text: 'Yıkama, dekontaminasyon ve düzeltme polisajı.' },
-  { icon: Droplets, title: 'Uygulama', text: 'Toz kontrollü kabinde seramik veya PPF uygulaması.' },
-  { icon: Award, title: 'Kürleme & teslim', text: 'Kızılötesi kürleme, kalite kontrol ve garanti belgesi.' },
+  { img: 'step-prep.jpg', title: 'Yıkama & dekontaminasyon', text: 'pH nötr köpük, demir tozu sökücü ve kil ile yüzey tamamen arındırılır.' },
+  { img: 'step-polish.jpg', title: 'Boya düzeltme', text: 'Boya kalınlığı ölçülür, kusur haritasına göre çok adımlı polisaj yapılır.' },
+  { img: 'step-detail.jpg', title: 'Uygulama', text: 'Toz kontrollü kabinde seramik katmanları ya da PPF film uygulanır.' },
+  { img: 'step-interior.jpg', title: 'Kürleme & teslim', text: 'Kızılötesi kürleme, ışık tüneli kontrolü ve garanti belgesi ile teslim.' },
 ]
 
 export function App() {
@@ -27,9 +41,13 @@ export function App() {
   const [packageId, setPackageId] = useState('ceramic-3')
   const [addOnIds, setAddOnIds] = useState<string[]>([])
   const [quote, setQuote] = useState<Quote | null>(null)
+  const [scrolled, setScrolled] = useState(false)
 
   useEffect(() => {
     services.catalog.getCatalog().then(setCatalog).catch((e: Error) => setError(e.message))
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
   useEffect(() => {
@@ -46,63 +64,82 @@ export function App() {
 
   const toggleAddOn = (id: string) =>
     setAddOnIds((ids) => (ids.includes(id) ? ids.filter((x) => x !== id) : [...ids, id]))
-
   const scrollTo = (id: string) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+  const choosePackage = (id: string) => {
+    setPackageId(id)
+    scrollTo('fiyatlar')
+  }
 
   return (
     <>
-      <header className="topbar">
+      <header className={`topbar ${scrolled ? 'is-scrolled' : ''}`}>
         <div className="container topbar-inner">
           <a href="#" className="brand" aria-label="Comodo Detailing ana sayfa">
-            <span className="brand-mark">C</span>
-            <span>Comodo <b>Detailing</b></span>
+            <span className="brand-word">COMODO</span>
+            <span className="brand-sub">Detailing Studio</span>
           </a>
           <nav className="nav" aria-label="Ana menü">
             <a href="#hizmetler">Hizmetler</a>
             <a href="#fiyatlar">Fiyatlar</a>
-            <a href="#parlaklik">Öncesi/Sonrası</a>
-            <a href="#randevu" className="btn btn-primary btn-sm">Randevu Al</a>
+            <a href="#parlaklik">Öncesi / Sonrası</a>
+            <a href="#surec">Süreç</a>
+            <a href="#randevu" className="btn btn-primary btn-sm">Randevu al</a>
           </nav>
         </div>
       </header>
 
       <main>
         <section className="hero">
-          <div className="container hero-grid">
-            <div>
-              <span className="eyebrow">Detailing · Seramik Kaplama · PPF</span>
-              <h1>
-                Aracınıza <span className="gradient-text">showroom parlaklığı</span>, yıllarca koruma.
-              </h1>
-              <p className="lead">
-                Segmentinizi seçin, paket fiyatını saniyeler içinde görün; öncesi/sonrası farkını kaydırarak inceleyin ve
-                online randevunuzu oluşturun.
-              </p>
-              <div className="hero-actions">
-                <button className="btn btn-primary btn-lg" onClick={() => scrollTo('fiyatlar')}>Fiyatımı hesapla</button>
-                <button className="btn btn-ghost btn-lg" onClick={() => scrollTo('parlaklik')}>Farkı gör</button>
-              </div>
-              <ul className="hero-proof">
-                <li><strong>2.400+</strong><span>kaplanan araç</span></li>
-                <li><strong>10 yıl</strong><span>PPF garantisi</span></li>
-                <li><strong>4.9/5</strong><span>müşteri puanı</span></li>
-              </ul>
+          <HeroShowcase />
+          <div className="container hero-content">
+            <span className="eyebrow">Detailing · Seramik Kaplama · PPF</span>
+            <h1>
+              Boyanız için<br />
+              <em>kusursuz</em> koruma.
+            </h1>
+            <p className="lead">
+              Antalya'da ışık tünelli, toz kontrollü stüdyomuzda aracınızı fabrika çıkışından daha iyi hâle getiriyoruz.
+            </p>
+            <div className="hero-actions">
+              <button className="btn btn-primary btn-lg" onClick={() => scrollTo('fiyatlar')}>
+                Fiyatını hesapla <ArrowRight size={18} aria-hidden />
+              </button>
+              <button className="btn btn-outline btn-lg" onClick={() => scrollTo('parlaklik')}>Öncesi / sonrası</button>
             </div>
-            <div className="hero-visual" aria-hidden="true">
-              <div className="studio-light" />
-              <CarArt variant="after" color="#1d3f8f" finish="gloss" beads />
-            </div>
+          </div>
+          <div className="container hero-proof">
+            <div><strong>2.400+</strong><span>kaplanan araç</span></div>
+            <div><strong>10 yıl</strong><span>PPF garantisi</span></div>
+            <div><strong>4.9 <Star size={16} fill="currentColor" aria-hidden /></strong><span>Google puanı</span></div>
           </div>
         </section>
 
         <section className="section" id="hizmetler">
           <div className="container">
+            <header className="section-head split">
+              <div>
+                <span className="eyebrow">Hizmetler</span>
+                <h2>Üç uzmanlık, tek standart.</h2>
+              </div>
+              <p>Her işe boya kalınlığı ölçümüyle başlar, ışık tünelinde kontrol ederek bitiririz. Sonuç fotoğraflarla raporlanır.</p>
+            </header>
             <div className="service-grid">
-              {SERVICES.map(({ icon: Icon, title, text }) => (
-                <article key={title} className="service-card">
-                  <span className="service-icon"><Icon size={22} aria-hidden /></span>
-                  <h3>{title}</h3>
-                  <p className="muted">{text}</p>
+              {SERVICES.map((s) => (
+                <article key={s.no} className="service-card">
+                  <div className="service-media">
+                    <img src={IMG + s.img} alt={s.title} loading="lazy" />
+                    <span className="service-no">{s.no}</span>
+                  </div>
+                  <div className="service-body">
+                    <h3>{s.title}</h3>
+                    <p>{s.text}</p>
+                    <div className="service-foot">
+                      <span><small>başlayan fiyatlarla</small>₺{s.from}</span>
+                      <button className="icon-link" onClick={() => choosePackage(s.pkg)} aria-label={`${s.title} paketlerini gör`}>
+                        <ArrowUpRight size={20} aria-hidden />
+                      </button>
+                    </div>
+                  </div>
                 </article>
               ))}
             </div>
@@ -125,19 +162,24 @@ export function App() {
             />
             <GlossSlider packages={catalog.packages} selectedPackageId={packageId} onSelectPackage={setPackageId} />
 
-            <section className="section">
+            <section className="section" id="surec">
               <div className="container">
-                <header className="section-head">
-                  <span className="eyebrow">Süreç</span>
-                  <h2>Aracınız bizde nasıl ilerler?</h2>
+                <header className="section-head split">
+                  <div>
+                    <span className="eyebrow">Süreç</span>
+                    <h2>Aracınız bizde nasıl ilerler?</h2>
+                  </div>
+                  <p>Her aşama fotoğraflanır ve WhatsApp üzerinden sizinle paylaşılır.</p>
                 </header>
                 <ol className="steps">
-                  {STEPS.map(({ icon: Icon, title, text }, i) => (
-                    <li key={title} className="step">
-                      <span className="step-no">0{i + 1}</span>
-                      <Icon size={22} className="accent" aria-hidden />
-                      <h3>{title}</h3>
-                      <p className="muted">{text}</p>
+                  {STEPS.map((s, i) => (
+                    <li key={s.title} className="step">
+                      <img src={IMG + s.img} alt="" loading="lazy" />
+                      <div className="step-body">
+                        <span className="step-no">0{i + 1}</span>
+                        <h3>{s.title}</h3>
+                        <p>{s.text}</p>
+                      </div>
                     </li>
                   ))}
                 </ol>
@@ -154,14 +196,20 @@ export function App() {
       <footer className="footer">
         <div className="container footer-inner">
           <div className="brand">
-            <span className="brand-mark">C</span>
-            <span>Comodo <b>Detailing</b></span>
+            <span className="brand-word">COMODO</span>
+            <span className="brand-sub">Detailing Studio</span>
           </div>
           <div className="footer-contact">
             <a href="tel:+902420000000"><Phone size={16} aria-hidden /> 0242 000 00 00</a>
             <span><MapPin size={16} aria-hidden /> Antalya</span>
+            <span>Pzt–Cmt 09:00–18:00</span>
           </div>
-          <small className="muted">© {new Date().getFullYear()} Comodo Teknoloji ve Ticaret</small>
+        </div>
+        <div className="container footer-legal">
+          <small>© {new Date().getFullYear()} Comodo Teknoloji ve Ticaret</small>
+          <small>
+            Fotoğraflar: <a href="https://unsplash.com" target="_blank" rel="noopener">Unsplash</a>
+          </small>
         </div>
       </footer>
     </>

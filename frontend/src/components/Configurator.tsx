@@ -2,7 +2,8 @@ import { Check, Clock, ShieldCheck, Sparkles, Table2 } from 'lucide-react'
 import { useState } from 'react'
 import type { Catalog, Quote, ServiceCategory } from '../domain/models'
 import { addOnPrice, formatTL, priceForSegment } from '../domain/rules'
-import { SegmentIcon } from './SegmentIcon'
+
+const IMG = `${import.meta.env.BASE_URL}images/`
 
 const CATEGORIES: { id: ServiceCategory; label: string; desc: string }[] = [
   { id: 'detailing', label: 'Detailing', desc: 'Temizlik & pasta cila' },
@@ -39,10 +40,12 @@ export function Configurator({ catalog, segmentId, packageId, addOnIds, quote, o
   return (
     <section className="section" id="fiyatlar">
       <div className="container">
-        <header className="section-head">
-          <span className="eyebrow">Anında Fiyat</span>
-          <h2>Aracınızın segmentini seçin, paket fiyatını görün</h2>
-          <p>Fiyatlar KDV dahildir; aracı gördükten sonra ek ücret çıkmaz, boya durumu fiyatı değiştirmez.</p>
+        <header className="section-head split">
+          <div>
+            <span className="eyebrow">Fiyatlar</span>
+            <h2>Segmentinizi seçin, fiyatı anında görün.</h2>
+          </div>
+          <p>Tüm fiyatlar KDV dahildir. Aracı gördükten sonra sürpriz ek ücret çıkmaz.</p>
         </header>
 
         <div className="config-grid">
@@ -57,9 +60,13 @@ export function Configurator({ catalog, segmentId, packageId, addOnIds, quote, o
                   className={`segment-card ${s.id === segmentId ? 'is-active' : ''}`}
                   onClick={() => onSegment(s.id)}
                 >
-                  <SegmentIcon segmentId={s.id} />
-                  <strong>{s.name}</strong>
-                  <small>{s.examples}</small>
+                  <span className="segment-photo">
+                    <img src={`${IMG}seg-${s.id}.jpg`} alt="" loading="lazy" />
+                  </span>
+                  <span className="segment-text">
+                    <strong>{s.name}</strong>
+                    <small>{s.examples}</small>
+                  </span>
                 </button>
               ))}
             </div>
@@ -156,6 +163,13 @@ export function Configurator({ catalog, segmentId, packageId, addOnIds, quote, o
           </div>
 
           <aside className="summary" aria-live="polite">
+            <figure className="summary-car">
+              <img key={segment.id} src={`${IMG}seg-${segment.id}.jpg`} alt={`${segment.name} segmenti örnek araç`} />
+              <figcaption>
+                <strong>{segment.name}</strong>
+                <span>{segment.examples}</span>
+              </figcaption>
+            </figure>
             <h3><Sparkles size={18} aria-hidden /> Teklif özeti</h3>
             {quote ? (
               <>
